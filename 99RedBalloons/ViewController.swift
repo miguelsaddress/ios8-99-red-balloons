@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     
     var balloons:[Balloon] = []
     var currentIndex = -1
+    let MAX_BALLOONS = 99
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,19 +29,22 @@ class ViewController: UIViewController {
     }
 
     @IBAction func showNextBalloonPressed(sender: UIBarButtonItem) {
-        currentIndex++
-        if currentIndex > 98 {
-         currentIndex = 0
-        }
-        
+        self.incrementCurrentIndex()
         let balloonToShow = self.balloons[currentIndex]
         self.backgroundImageView.image = UIImage(named: balloonToShow.imgFile)
         self.numberBalloonsLabel.text = "\(balloonToShow.number) Balloons"
     }
 
+    private func incrementCurrentIndex() {
+        currentIndex++
+        if currentIndex == self.balloons.count {
+            currentIndex = 0
+        }
+    }
+    
     private func randomizeBalloons(){
         let pictures = ["RedBalloon1.jpg", "RedBalloon2.jpg", "RedBalloon3.jpg", "RedBalloon4.jpg"]
-        for i in 1...99 {
+        for i in 1...MAX_BALLOONS {
             let randomPictureIndex = Int(arc4random_uniform(UInt32(pictures.count)))
             let balloon = Balloon(number: i, imgFile: pictures[randomPictureIndex])
             self.balloons.append(balloon)
